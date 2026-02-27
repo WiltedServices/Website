@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artemis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Inter", sans-serif; }
+body { background: #000; color:#e0e0e0; min-height:100vh; }
+
+header { display:flex; align-items:center; justify-content:center; gap:15px; padding:50px 20px 20px; }
+header img { width:60px; height:60px; border-radius:12px; }
+header h1 { font-size:36px; font-weight:600; color:#fff; }
+
+.about { max-width:800px; margin:20px auto 50px; padding:0 20px; font-size:16px; line-height:1.6; color:#c7c7c7; text-align:center; }
+
+.section-title { text-align:center; font-size:28px; margin-bottom:40px; color:#d1d1d1; }
+
+.dev-list { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:25px; padding:0 20px 60px; }
+
+.dev-card {
+    background:#1a1a1a; border-radius:16px; text-align:center; padding:25px 20px 20px;
+    cursor:pointer; transition:transform 0.3s, box-shadow 0.3s, border 0.3s; box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+.dev-card:hover { transform:translateY(-6px); box-shadow:0 12px 24px rgba(0,0,0,0.5); border:1px solid #555; }
+.dev-card img { width:100px; height:100px; border-radius:50%; border:2px solid #555; margin-bottom:15px; object-fit:cover; }
+.dev-card h3 { font-size:20px; font-weight:600; margin-bottom:8px; }
+
+.status { display:flex; align-items:center; justify-content:center; margin-bottom:12px; font-weight:500; }
+.status-dot { width:12px; height:12px; border-radius:50%; margin-right:8px; }
+.status.online { color:#22c55e; } 
+.status.idle { color:#facc15; } 
+.status.dnd { color:#ef4444; } 
+.status.offline { color:#6b7280; }
+
+.social-item { margin:6px 0; }
+.social-item a { color:#c7c7c7; text-decoration:none; font-size:14px; }
+.social-item a:hover { text-decoration:underline; }
+
+@media(max-width:480px){
+    header { flex-direction:column; gap:10px; }
+    .dev-card { padding:20px 15px 15px; }
+    .dev-card img { width:80px; height:80px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <img src="https://cdn.discordapp.com/icons/1475884759568748737/1ff31afa9631a8447a55fef3d7519a8b.png?size=512" alt="Artemis Logo">
+    <h1>ARTEMIS</h1>
+</header>
+
+<section class="about">
+<p>Artemis is a Orginization of developers that really like cybersecurity. We're a new orginization, and we havent had any major projects yet...</p>
+  <!-- i never knew the small text html tag existed -->
+  <small>there are lots of planned projects, don't worry :)</small>
+</section>
+
+<section>
+<h2 class="section-title">Developers</h2>
+<div class="dev-list" id="devList"></div>
+</section>
+<!-- s-senpai! why the fuck are you using script tags!?~ -->
+<script>
+const CORS_PROXY = "https://corsproxy.io/?";
+const devList = document.getElementById("devList");
+
+fetch('socials.json')
+  .then(res => res.json())
+  .then(socialData => {
+    Object.keys(socialData).forEach(dev => {
+        const data = socialData[dev];
+        const card = document.createElement("div");
+        card.className = "dev-card";
+        card.innerHTML = `
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="${dev}">
+            <h3>${dev}</h3>
+            <div class="status"><span class="status-dot"></span><span class="status-text">...</span></div>
+            <div class="socials"></div>
+        `;
+     devList.appendChild(card);
+
+    loadDeveloper(card, data);
+    });
+  })
+  .catch(err => console.error("skidding!", err));
+
+async function loadDeveloper(card, data) {
+    const avatarImg = card.querySelector("img");
+    const nameEl = card.querySelector("h3");
+    const statusEl = card.querySelector(".status");
+    const statusDot = statusEl.querySelector(".status-dot");
+    const statusText = statusEl.querySelector(".status-text");
+    const socialsDiv = card.querySelector(".socials");
+
+    socialsDiv.innerHTML = "";
+    statusText.textContent = "Loading...";
+    statusDot.style.backgroundColor = "#6b7280";
+
+// now with cors support!
+        if(data.discordId){
+        try{
+            const res = await fetch(CORS_PROXY + `https://api.lanyard.rest/v1/users/${data.discordId}`);
+            const json = await res.json();
+            if(json.success){
+                const d = json.data;
+                const user = d.discord_user;
+                const isAnimated = user.avatar?.startsWith("a_");
+                const format = isAnimated ? "gif" : "png";
+                avatarImg.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${format}?size=256`;
+
+                nameEl.textContent = user.global_name || user.username;
+
+                const status = d.discord_status;
+                statusText.textContent = status;
+                statusEl.className = "status " + status;
+                statusDot.style.backgroundColor =
+                    status === "online" ? "#22c55e" :
+                    status === "idle" ? "#facc15" :
+                    status === "dnd" ? "#ef4444" : "#6b7280";
+            }
+        }catch(err){
+            console.error(err);
+            statusText.textContent = "Offline";
+            statusEl.className="status offline";
+            statusDot.style.backgroundColor="#6b7280";
+        }
+    }
+
+    if(data.github) socialsDiv.innerHTML += `<div class="social-item">GitHub: <a href="${data.github}" target="_blank">${data.github}</a></div>`;
+    if(data.website) socialsDiv.innerHTML += `<div class="social-item">Website: <a href="${data.website}" target="_blank">${data.website}</a></div>`;
+}
+</script>
+
+</body>
+</html>

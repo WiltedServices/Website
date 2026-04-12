@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IXL | Math, Language Arts, Science, Social Studies, and Spanish</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 800;
+            color: #00a3e0;
+            text-decoration: none;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .btn-join {
+            background: #ffc107;
+            color: #333;
+            padding: 10px 24px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-signin {
+            color: #00a3e0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-main {
+            border-top: 1px solid #e0e0e0;
+            padding: 0 40px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-links li {
+            padding: 16px 0;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #00a3e0;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4a90e2 0%, #5c7fda 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600"><rect fill="%234a90e2" width="1920" height="600"/><ellipse cx="1600" cy="400" rx="400" ry="300" fill="%235c7fda" opacity="0.3"/><ellipse cx="300" cy="200" rx="350" ry="250" fill="%233d7bc7" opacity="0.2"/></svg>');
+            background-size: cover;
+            padding: 80px 40px 100px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hero-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-card {
+            background: white;
+            color: #333;
+            border-radius: 20px;
+            padding: 30px;
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+
+        .hero-card:nth-child(1)::before {
+            background: #00a3e0;
+        }
+
+        .hero-card:nth-child(2)::before {
+            background: #9b59b6;
+        }
+
+        .hero-card:nth-child(3)::before {
+            background: #1abc9c;
+        }
+
+        .hero-card h2 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .hero-card a {
+            color: #00a3e0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .hero-card p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .hero-card .arrow {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-member {
+            background: #ffc107;
+            color: #333;
+            padding: 16px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(255,193,7,0.4);
+        }
+
+        /* Offerings Banner */
+        .offerings {
+            background: #f8f9fa;
+            padding: 40px;
+        }
+
+        .offerings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .offering-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .offering-card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .offering-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .offering-card a {
+            color: #00a3e0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Curriculum Section */
+        .curriculum {
+            padding: 60px 40px;
+            background: white;
+        }
+
+        .curriculum h2 {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .grade-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grade-tab {
+            background: #f0f0f0;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        .grade-tab:hover {
+            background: #e0e0e0;
+        }
+
+        .grade-tab.active {
+            background: #00a3e0;
+            color: white;
+        }
+
+        .grade-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grade-description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .subject-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .subject-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .subject-card a {
+            color: #00a3e0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .skills-section h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .skills-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .skills-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .skill-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .skill-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .skill-card p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .skill-card a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        /* Teachers Section */
+        .teachers-section {
+            padding: 80px 40px;
+            background: white;
+        }
+
+        .teachers-section h2 {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .teacher-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .teacher-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .teacher-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .teacher-card a {
+            color: #00a3e0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Impact Section */
+        .impact-section {
+            background: #f8f9fa;
+            padding: 60px 40px;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .impact-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .impact-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .impact-card p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .impact-card a {
+            color: #00a3e0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 80px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .testimonials h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .testimonial-card p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .testimonial-card a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 60px 40px 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .social-icon:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .footer-brands {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin: 40px 0;
+        }
+
+        .brand-link {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .brand-link:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #95a5a6;
+            font-size: 13px;
+            padding-top: 20px;
+        }
+
+        .footer-bottom a {
+            color: #95a5a6;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-cards {
+                flex-direction: column;
+            }
+
+            .offerings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                overflow-x: auto;
+                gap: 20px;
+            }
+
+            .grade-tabs {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="nav-top">
+            <a href="/" class="logo">IXL</a>
+            <div class="nav-right">
+                <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+                <a href="/membership" class="btn-join">Join now</a>
+                <a href="/signin" class="btn-signin">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                    Sign in
+                </a>
+            </div>
+        </div>
+        <nav class="nav-main">
+            <ul class="nav-links">
+                <li><a href="/math">Learning</a></li>
+                <li><a href="/diagnostic">Assessment</a></li>
+                <li><a href="/analytics">Analytics</a></li>
+                <li><a href="/core-curriculum-takeoffbyixl">Takeoff</a></li>
+                <li><a href="/resources/welcome">Inspiration</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1><a href="/membership">IXL is personalized learning</a></h1>
+        <div class="hero-cards">
+            <div class="hero-card">
+                <h2>Comprehensive K–12 curriculum</h2>
+                <p>
+                    <a href="/math">Math</a> ● 
+                    <a href="/ela">Language arts</a> ● 
+                    <a href="/science">Science</a> ● 
+                    <a href="/social-studies">Social studies</a> ● 
+                    <a href="/spanish">Spanish</a>
+                </p>
+                <a href="#curriculum" class="arrow">↓</a>
+            </div>
+            <div class="hero-card">
+                <h2>Trusted by educators and parents</h2>
+                <p><a href="/membership">Over <strong>160 billion</strong> questions answered</a></p>
+                <p><a href="/membership">More than <strong>17 million</strong> students use IXL</a></p>
+                <a href="#testimonials" class="arrow">↓</a>
+            </div>
+            <div class="hero-card">
+                <h2>Immersive learning experience</h2>
+                <p>
+                    <a href="/analytics">Analytics</a> ● 
+                    <a href="/recommendations">Recommendations</a><br>
+                    <a href="/diagnostic">Real-Time Diagnostic</a> ● 
+                    <a href="/awards">Awards</a>
+                </p>
+                <a href="#experience" class="arrow">↓</a>
+            </div>
+        </div>
+        <a href="/membership" class="btn-member">Become a member!</a>
+    </section>
+
+    <!-- Offerings Banner -->
+    <section class="offerings">
+        <div class="offerings-grid">
+            <div class="offering-card">
+                <h3>High school</h3>
+                <p>IXL helps high schoolers create their own path to success.</p>
+                <a href="/high-school">Take a look →</a>
+            </div>
+            <div class="offering-card">
+                <h3>Independent learners</h3>
+                <p>Yes, IXL is for adults, too!</p>
+                <a href="https://pro.ixl.com">Take a look →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section id="curriculum" class="curriculum">
+        <h2>Comprehensive K–12 curriculum</h2>
+        <div class="grade-tabs">
+            <button class="grade-tab">P - Pre-K</button>
+            <button class="grade-tab active">K - Kindergarten</button>
+            <button class="grade-tab">1 - First grade</button>
+            <button class="grade-tab">2 - Second grade</button>
+            <button class="grade-tab">3 - Third grade</button>
+            <button class="grade-tab">4 - Fourth grade</button>
+            <button class="grade-tab">5 - Fifth grade</button>
+            <button class="grade-tab">6 - Sixth grade</button>
+            <button class="grade-tab">7 - Seventh grade</button>
+            <button class="grade-tab">8 - Eighth grade</button>
+            <button class="grade-tab">9 - Ninth grade</button>
+            <button class="grade-tab">10 - Tenth grade</button>
+            <button class="grade-tab">11 - Eleventh grade</button>
+            <button class="grade-tab">12 - Twelfth grade</button>
+            <button class="grade-tab">🌍 Spanish</button>
+        </div>
+        <div class="grade-content">
+            <p class="grade-description">Comparing numbers, names of shapes, letter names and sounds, plants and animals, communities, and more.</p>
+            <div class="subjects-grid">
+                <div class="subject-card">
+                    <h3>Math</h3>
+                    <a href="/math/kindergarten">365 skills →</a>
+                    <a href="/math/kindergarten/videos">342 videos →</a>
+                </div>
+                <div class="subject-card">
+                    <h3>Language arts</h3>
+                    <a href="/ela/kindergarten">191 skills →</a>
+                    <a href="/ela/kindergarten/videos">143 videos →</a>
+                </div>
+                <div class="subject-card">
+                    <h3>Science</h3>
+                    <a href="/science/kindergarten">64 skills →</a>
+                </div>
+                <div class="subject-card">
+                    <h3>Social studies</h3>
+                    <a href="/social-studies/kindergarten">75 skills →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Planning Section -->
+    <section class="skills-section">
+        <h2>The exact skills you need</h2>
+        <p>Planning a lesson or prepping for an exam?<br>We've custom-built IXL skills to reinforce each topic within your:</p>
+        <div class="skills-cards">
+            <div class="skill-card">
+                <h3>State standards</h3>
+                <p>Ohio Learning Standards</p>
+            </div>
+            <div class="skill-card">
+                <h3>Textbooks</h3>
+                <p>See skills that match every chapter of 110+ popular textbook series</p>
+            </div>
+            <div class="skill-card">
+                <h3>Assessments</h3>
+                <p>Use IXL for the NWEA MAP, ACT, SAT, and more</p>
+            </div>
+        </div>
+        <p style="margin-top: 40px;"><a href="/skill-plans" style="background: white; color: #667eea; padding: 14px 32px; border-radius: 25px; text-decoration: none; font-weight: 700; display: inline-block;">Find your skill plan!</a></p>
+    </section>
+
+    <!-- Teachers Section -->
+    <section id="experience" class="teachers-section">
+        <h2>Discover how IXL supports success for every learner</h2>
+        <p style="text-align: center; font-size: 20px; margin-bottom: 40px; color: #666; font-weight: 600;">IXL gives teachers everything they need to personalize instruction</p>
+        <div class="teachers-grid">
+            <div class="teacher-card">
+                <h3>Comprehensive Curriculum</h3>
+                <p>Find content to support nearly any lesson, with more than 17,000 skills covering five subjects.</p>
+                <a href="/math">Browse skills →</a>
+            </div>
+            <div class="teacher-card">
+                <h3>Assessment Suite</h3>
+                <p>Pinpoint what your students know and exactly what to do next to help them improve.</p>
+                <a href="/diagnostic">Learn how it works →</a>
+            </div>
+            <div class="teacher-card">
+                <h3>Personalized Guidance</h3>
+                <p>See skill recommendations that help each student fill knowledge gaps and grow from where they are.</p>
+                <a href="/recommendations">Explore recommendations →</a>
+            </div>
+            <div class="teacher-card">
+                <h3>Actionable Analytics</h3>
+                <p>Get real-time insights that help you make effective instructional decisions every day.</p>
+                <a href="/analytics">View insights →</a>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px;"><a href="/membership" style="background: #ffc107; color: #333; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 18px; display: inline-block;">Join now</a></p>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="impact-section">
+        <h2 style="text-align: center; font-size: 42px; margin-bottom: 50px; color: #333;">See the impact IXL has made on student learning!</h2>
+        <div class="impact-grid">
+            <div class="impact-card">
+                <h3>Proven effective</h3>
+                <p>Research has shown over and over that IXL produces real results.</p>
+                <a href="/membership/teachers/research">See the research →</a>
+            </div>
+            <div class="impact-card">
+                <h3>Flexible for any classroom</h3>
+                <p>Read our case studies to see how IXL drives success in classrooms nationwide.</p>
+                <a href="/membership/teachers/case-studies">Hear their stories →</a>
+            </div>
+            <div class="impact-card">
+                <h3>Trusted by top teachers</h3>
+                <p>The Elite 100 share why they turn to IXL to help their students grow.</p>
+                <a href="/resources/elite-100">Get inspired →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials">
+        <h2>Testimonials</h2>
+        <div class="testimonial-card">
+            <p>I really like IXL and I like that it makes you better at math. <strong>The awards make you feel like you have done something special.</strong></p>
+            <div class="testimonial-author">Jeremy A., student<br>Charleston, West Virginia</div>
+            <a href="/testimonials">Read more →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>What we offer</h3>
+                <ul>
+                    <li><a href="/membership/family/pricing">For families</a></li>
+                    <li><a href="/membership/teachers">For classrooms</a></li>
+                    <li><a href="/membership/administrators">For schools & districts</a></li>
+                    <li><a href="/?notHs=true">For K-12</a></li>
+                    <li><a href="/high-school">For high schools</a></li>
+                    <li><a href="/">For independent learners</a></li>
+                    <li><a href="/math">Math</a></li>
+                    <li><a href="/ela">Language arts</a></li>
+                    <li><a href="/science">Science</a></li>
+                    <li><a href="/social-studies">Social studies</a></li>
+                    <li><a href="/spanish">Spanish</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="/help-center">Help center</a></li>
+                    <li><a href="/userguides">User guides</a></li>
+                    <li><a href="/feedback">Tell us what you think</a></li>
+                    <li><a href="https://blog.ixl.com">Blog</a></li>
+                    <li><a href="/testimonials">Testimonials</a></li>
+                    <li><a href="/case-studies">Case studies</a></li>
+                    <li><a href="/membership/teachers/research">Research</a></li>
+                    <li><a href="/resources/ixl-live">IXL Live</a></li>
+                    <li><a href="/help">Help</a></li>
+                    <li><a href="/contact">Contact us</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/IXL" class="social-icon">f</a>
+                    <a href="https://x.com/IXLLearning" class="social-icon">𝕏</a>
+                    <a href="https://www.pinterest.com/IXL/" class="social-icon">P</a>
+                    <a href="https://www.instagram.com/ixl/" class="social-icon">📷</a>
+                    <a href="https://www.youtube.com/ixl/" class="social-icon">▶</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>About</h3>
+                <ul>
+                    <li><a href="/company">Company</a></li>
+                    <li><a href="/company/newsroom/home">Newsroom</a></li>
+                    <li><a href="/company/careers">Careers</a></li>
+                    <li><a href="/termsofservice">Terms of service</a></li>
+                    <li><a href="/privacypolicy">Privacy policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>International</h3>
+                <ul>
+                    <li><a href="https://www.ixl.com">United States</a></li>
+                    <li><a href="https://au.ixl.com">Australia</a></li>
+                    <li><a href="https://br.ixl.com">Brasil</a></li>
+                    <li><a href="https://ca.ixl.com">Canada</a></li>
+                    <li><a href="https://es.ixl.com">España</a></li>
+                    <li><a href="https://fr.ixl.com">France</a></li>
+                    <li><a href="https://in.ixl.com">India</a></li>
+                    <li><a href="https://ie.ixl.com">Ireland</a></li>
+                    <li><a href="https://nz.ixl.com">New Zealand</a></li>
+                    <li><a href="https://uk.ixl.com">United Kingdom</a></li>
+                    <li><a href="/international">All editions</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-brands">
+            <a href="https://www.rosettastone.com/" class="brand-link">Rosetta Stone - Immersive learning for 25 languages</a>
+            <a href="https://www.wyzant.com/" class="brand-link">Wyzant - Trusted tutors for 300+ subjects</a>
+            <a href="https://www.education.com/" class="brand-link">Education.com - 35,000 worksheets, games, and lesson plans</a>
+            <a href="https://www.teacherspayteachers.com/" class="brand-link">Teachers Pay Teachers - Marketplace for educator resources</a>
+            <a href="https://www.vocabulary.com/" class="brand-link">Vocabulary.com - Adaptive learning for English vocabulary</a>
+            <a href="https://www.abcya.com/" class="brand-link">ABCya - Fun educational games for kids</a>
+            <a href="https://www.spanishdict.com/" class="brand-link">SpanishDict - Spanish-English dictionary & translator</a>
+            <a href="https://www.ingles.com/" class="brand-link">Inglés.com - English-Spanish learning</a>
+            <a href="https://emmersion.ai/" class="brand-link">Emmersion - Fast and accurate language certification</a>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 <a href="/company">IXL Learning</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Grade tab switching
+        const gradeTabs = document.querySelectorAll('.grade-tab');
+        gradeTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                gradeTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

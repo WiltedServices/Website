@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation — Wilted Services</title>
+    <meta name="description" content="Official documentation for Wilted Services bypass tools and techniques.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/main.css">
+</head>
+<body>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <nav id="nav">
+        <a href="index.html" class="nav-brand">
+            <img src="./assets/WILTED SERVICES (1).png" alt="Wilted Logo" class="nav-brand-logo">
+            <span class="nav-brand-name">Wilted Services</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#projects">Projects</a>
+            <a href="index.html#team">Team</a>
+            <a href="docs.html">Docs</a>
+            <a href="about.html">About</a>
+            <a href="https://discord.gg/services" class="nav-cta">Discord</a>
+        </div>
+    </nav>
+
+    <section class="hero" style="min-height: 85vh;">
+        <div class="hero-glow"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-inner" style="max-width: 800px;">
+            <p class="hero-eyebrow"><span class="hero-eyebrow-dot"></span> Maintenance</p>
+            <h1>Docs are <em>restructuring.</em></h1>
+            <p class="hero-sub">We are currently rewriting our documentation to keep up with the latest bypass techniques. Our guides will be available again soon.</p>
+            <div class="hero-actions">
+                <a href="https://discord.gg/wilted" class="btn-primary">Join the Discord</a>
+                <a href="index.html" class="btn-ghost">
+                    Back to Home
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-brand">
+            <img src="./assets/WILTED SERVICES (1).png" alt="Wilted Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">Wilted Services</span>
+        </div>
+        <p class="footer-copy">&copy; 2026 Wilted Services. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://discord.gg/wilted">Discord</a>
+            <a href="index.html#projects">Projects</a>
+            <a href="index.html#team">Team</a>
+        </div>
+    </footer>
+
+    <script>
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            dot.style.left = mx + 'px';
+            dot.style.top = my + 'px';
+        });
+
+        (function animRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(animRing);
+        })();
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+            el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+        });
+
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+    </script>
+</body>
+</html>

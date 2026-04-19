@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Wilted Services</title>
+    <meta name="description" content="The mission and philosophy behind Wilted Services. Unrestricted access for all.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/main.css">
+</head>
+<body>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <nav id="nav">
+        <a href="index.html" class="nav-brand">
+            <img src="./assets/WILTED SERVICES (1).png" alt="Wilted Logo" class="nav-brand-logo">
+            <span class="nav-brand-name">Wilted Services</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#projects">Projects</a>
+            <a href="index.html#team">Team</a>
+            <a href="docs.html">Docs</a>
+            <a href="https://discord.gg/wilted" class="nav-cta">Discord</a>
+        </div>
+    </nav>
+
+    <section class="hero" style="min-height: 80vh;">
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <p class="hero-eyebrow"><span class="hero-eyebrow-dot"></span> Our Philosophy</p>
+        <h1>Our Mission.</h1>
+        <p class="hero-sub">We believe that information should be universal, unrestricted, and inherently accessible to anyone with a connection.</p>
+      </div>
+    </section>
+
+    <div class="manifesto reveal" style="padding-top: 0;">
+      <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; color: var(--text); margin-bottom: 32px; letter-spacing: -2px;">Unrestricted by Design.</h2>
+      <p class="manifesto-text" style="font-size: 20px; line-height: 1.6; margin-bottom: 24px;">The internet was built as a decentralized, resilient network meant to survive and thrive without bottlenecks. Today, institutional firewalls and corporate filters have created a fragmented web. Wilted Services exists to bridge those gaps.</p>
+      <p class="manifesto-text" style="font-size: 20px; line-height: 1.6; margin-bottom: 48px;">We are a collective of independent developers, engineers, and digital rights advocates who prioritize technical excellence over bureaucratic compliance.</p>
+      
+      <div class="stats-inner" style="grid-template-columns: repeat(2, 1fr); text-align: left;">
+        <div class="stat-item" style="border-right: 1px solid var(--border);">
+          <div class="stat-label" style="text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; color: var(--accent);">Privacy</div>
+          <p style="color: var(--text-secondary); line-height: 1.5;">Zero logging. Absolute discretion. Our tools are designed to leave no trace, ensuring that your digital footprint remains yours alone.</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label" style="text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; color: var(--accent);">Integrity</div>
+          <p style="color: var(--text-secondary); line-height: 1.5;">Open-source where it matters. We value transparency and invite the community to peer-review our security implementations.</p>
+        </div>
+      </div>
+    </div>
+
+    <section style="padding: 120px 56px; text-align: center; background: var(--bg-elevated); border-top: 1px solid var(--border);">
+      <h2 style="font-size: 32px; font-weight: 600; margin-bottom: 24px; letter-spacing: -1px;">Ready to explore?</h2>
+      <a href="docs.html" class="btn-primary" style="display: inline-block;">Get Started</a>
+    </section>
+
+    <footer>
+        <div class="footer-brand">
+            <img src="./assets/WILTED SERVICES (1).png" alt="Wilted Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">Wilted Services</span>
+        </div>
+        <p class="footer-copy">&copy; 2026 Wilted Services. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://discord.gg/wilted">Discord</a>
+            <a href="index.html#projects">Projects</a>
+            <a href="index.html#team">Team</a>
+        </div>
+    </footer>
+
+    <script>
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            dot.style.left = mx + 'px';
+            dot.style.top = my + 'px';
+        });
+
+        (function animRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(animRing);
+        })();
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+            el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+        });
+
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        const revealEls = document.querySelectorAll('.reveal');
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    e.target.querySelectorAll('.stat-item').forEach((item, i) => {
+                        setTimeout(() => item.classList.add('visible'), i * 120);
+                    });
+                }
+            });
+        }, {
+            threshold: 0.15
+        });
+        revealEls.forEach(el => revealObs.observe(el));
+    </script>
+</body>
+</html>

@@ -22,7 +22,6 @@
   const activityCard = document.getElementById('activityCard');
   const spotifyCard = document.getElementById('spotifyCard');
 
-  /* ── Social links ── */
   const githubCard = document.getElementById('githubCard');
   const websiteCard = document.getElementById('websiteCard');
 
@@ -42,7 +41,6 @@
   async function fetchDiscordPresence(discordId) {
     const providers = [
       {
-        // Lanyard (Presence + User data) — Only works if user is in Lanyard Discord
         url: id => `https://api.lanyard.rest/v1/users/${id}`,
         parse: async res => {
           const json = await res.json();
@@ -58,12 +56,10 @@
         }
       },
       {
-        // Marki API (User data) — Works for any Discord user, proxied for reliability
         url: id => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.marki.my/v1/users/${id}`)}`,
         parse: async res => {
           const json = await res.json();
           if (!json || json.error) return null;
-          // Return as user object
           return {
             user: {
               id: json.id,
@@ -94,14 +90,12 @@
     return null;
   }
 
-  /* ── Fetch Discord presence ── */
   try {
     const profile = await fetchDiscordPresence(cfg.discordId);
     if (!profile) throw new Error('API fail');
 
     const user = profile.user;
 
-    /* Avatar */
     if (user.avatar) {
       if (user.avatar.startsWith('http')) {
         avatarImg.src = user.avatar;
@@ -111,19 +105,16 @@
       }
     }
 
-    /* Name */
     displayName.textContent = user.global_name || user.username || cfg.fallbackName || 'Unknown';
     if (usernameEl) usernameEl.textContent = '@' + (user.username || cfg.fallbackName || 'unknown');
     document.title = (user.global_name || user.username || cfg.fallbackName || 'Profile') + ' — Wilted Services';
 
-    /* Status */
     const s = profile.status || 'offline';
     const statusLabels = { online: 'Online', idle: 'Idle', dnd: 'Do Not Disturb', offline: 'Offline' };
     statusText.textContent = statusLabels[s] || s;
     statusDot.className = 'status-dot ' + s;
     statusRing.className = 'avatar-status-ring ' + s;
 
-    /* ── Spotify ── */
     if (profile.listening_to_spotify && profile.spotify && spotifyCard) {
       const sp = profile.spotify;
       spotifyCard.classList.remove('hidden');
@@ -152,7 +143,6 @@
       elapsed.textContent = fmt(Math.min(now, total));
       duration.textContent = fmt(total);
 
-      /* live tick */
       setInterval(() => {
         const n2 = Date.now() - sp.timestamps.start;
         fill.style.width = Math.min(100, (n2 / total) * 100) + '%';
@@ -160,7 +150,6 @@
       }, 1000);
     }
 
-    /* ── Other activities ── */
     const activities = (profile.activities || []).filter(a => a.type !== 2); /* 2 = Spotify */
     if (activities.length > 0 && activityCard) {
       const act = activities[0];

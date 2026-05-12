@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wilted Services - Breach</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000;
+  --bg-elevated: #080808;
+  --surface: #0c0c0c;
+  --surface-2: #111;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.14);
+  --text: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --text-tertiary: #48484a;
+  --accent: #ff3b30;
+  --accent-glow: rgba(255, 59, 48, 0.35);
+  --radius-card: 24px;
+  --radius-sm: 12px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: clip;
+  scrollbar-width: none;
+  cursor: none !important;
+  height: 100%;
+}
+
+* {
+  cursor: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg%20viewBox='0%200%20256%20256'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter%20id='noise'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='4'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23noise)'%20opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.6;
+}
+
+.center {
+  text-align: center;
+}
+
+#bypass-screen {
+  width: 100%;
+  max-width: 980px;
+}
+
+h1 {
+  font-size: 2.4rem;
+  margin-bottom: 32px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+  width: 100%;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  border-radius: var(--radius-card);
+  min-height: 120px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+
+.box:hover {
+  background: var(--surface-2);
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+.fade {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-width: 980px;
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.footer-credits {
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+
+.footer-credits .wilted-red {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 8px;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--text);
+}
+
+.discord-icon {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+}
+
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  letter-spacing: -0.3px;
+}
+
+#embed-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+#backBtn {
+  margin-bottom: 12px;
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  align-self: flex-start;
+}
+
+#backBtn:hover {
+  background: var(--surface-2);
+  border-color: var(--border-hover);
+}
+
+#embedContent {
+  width: 100%;
+  max-width: 980px;
+  margin: auto;
+  color: var(--text);
+}
+
+#embedContent h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+#embedContent h2 {
+  font-size: 1.5rem;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+#embedContent p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+#embedContent a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+#embedContent a:hover {
+  opacity: 0.8;
+}
+
+#embedContent code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  font-size: 0.9em;
+  color: var(--accent);
+  font-family: monospace;
+}
+
+#embedContent pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+#embedContent pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+#embedContent ul,
+#embedContent ol {
+  margin-left: 24px;
+  margin-bottom: 16px;
+}
+
+#embedContent li {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .boxes {
+    grid-template-columns: 1fr;
+  }
+
+  .box {
+    padding: 24px;
+  }
+
+  #backBtn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  #embedContent h1 {
+    font-size: 1.6rem;
+  }
+
+  #embedContent h2 {
+    font-size: 1.2rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="bypass-screen" class="center visible">
+  <h1>What would you like to bypass today?</h1>
+  <div class="boxes">
+    <div class="box" data-page="school.html">School Controls</div>
+    <div class="box" data-page="windows.html">Windows Controls</div>
+    <div class="box" data-page="android.html">Android Controls</div>
+    <div class="box" data-page="ios.html">iOS Controls</div>
+    <div class="box" data-page="familylink.html">Family Link</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-credits">
+    Founded by <span class="wilted-red">Nebuli Labs</span>, now apart of <span class="wilted-red">Wilted Services</span>
+  </div>
+  <a class="footer-link" href="https://dsc.gg/nebulilabs" target="_blank">
+    <img class="discord-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg">
+    Nebuli Labs Discord
+  </a>
+</footer>
+
+<div id="loading-screen" class="hidden">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading content...</div>
+  </div>
+</div>
+
+<div id="embed-view" class="hidden">
+  <button id="backBtn">← Back</button>
+  <div id="embedContent"></div>
+</div>
+
+<script>
+const bypassScreen = document.getElementById('bypass-screen');
+const loadingScreen = document.getElementById('loading-screen');
+const embedView = document.getElementById('embed-view');
+const embedContent = document.getElementById('embedContent');
+const backBtn = document.getElementById('backBtn');
+
+document.querySelectorAll('.box').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const page = btn.getAttribute('data-page');
+    loadPage(page);
+  });
+});
+
+async function loadPage(page) {
+  bypassScreen.classList.add('hidden');
+  loadingScreen.classList.remove('hidden');
+
+  try {
+    const url = `https://cdn.jsdelivr.net/gh/WiltedServices/Website/breach/${page}`;
+    const res = await fetch(url);
+    const html = await res.text();
+
+    embedContent.innerHTML = html;
+    loadingScreen.classList.add('hidden');
+    embedView.classList.remove('hidden');
+  } catch (error) {
+    console.error('Error loading page:', error);
+    loadingScreen.classList.add('hidden');
+    bypassScreen.classList.remove('hidden');
+  }
+}
+
+backBtn.addEventListener('click', () => {
+  embedContent.innerHTML = '';
+  embedView.classList.add('hidden');
+  bypassScreen.classList.remove('hidden');
+});
+</script>
+
+</body>
+</html>

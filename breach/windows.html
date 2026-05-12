@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Windows</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/WiltedServices/Website/breach/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="logo">DOCS</div>
+      <div>
+        <h1>Windows Controls</h1>
+        <div class="subtitle">A place where you don’t have to live by the restrictions of a screen.</div>
+      </div>
+    </header>
+
+    <details>
+      <summary><span class="chev">▶</span><span class="title">Swapped exploit (getting admin)</span></summary>
+      <div class="content">
+        <p>Also known as Sticky Keys/Utilman exploit.</p>
+        <ul>
+          <li>Access an elevated Command Prompt/Powershell instance. There are multiple ways to do this:</li>
+          <ul>
+            <li>Boot into Windows RE, selecting "Advanced Options", then "Command Prompt"</li>
+            <li>Booting a Windows installation media on an external storage device & selecting Next > Repair Your Computer > Troubleshoot > Command Prompt</li>
+          </ul>
+          <li>Run “C:”</li>
+          <ul>
+            <li>Note that Windows can be installed on any drive, C is just the most common one.</li>
+          </ul>
+          <li>Run “dir”. Keep going until you find a drive with the Windows directory (1).</li>
+          <li>Create a backup by running “copy sethc.exe sethc.bak” for Sticky Keys or "copy utilman.exe utilman.bak" for Utilman.</li>
+          <ul>
+            <li>Note other files can be swapped, these are just the most common ones.</li>
+          </ul>
+          <li>Swap the respective file with another file.</li>
+          <ul>
+            <li>Swapping with Command Prompt; run “copy cmd.exe sethc.exe” for Sticky Keys or "copy cmd.exe utilman.exe" for Utilman.
+            </li>
+          </ul>
+          <li>Type "Y" to proceed.</li>
+          <li>Activate Sticky Keys (press Shift 5 times) or click the Ease of Access button (on the login screen as well as Ctrl+Alt+Delete).</li>
+          <li>Run any commands.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="chev">▶</span><span class="title">Temporarily Removing Family Safety</span></summary>
+      <div class="content">
+        <ul>
+          <li>Open the task manager</li>
+          <li>Go to the details tab</li>
+          <li>Find or search for "wpcmon.exe"</li>
+          <li>Right-click, and hit “End process tree”</li>
+          <ul>
+            <li>if you can't end it because you don't have admin, use the Swapped exploit</li>
+            <li>the application will start back up if you shut off your device or put it to sleep if you want to fix this, find <strong>Ending Family Safety on startup</strong></li>
+          </ul>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="chev">▶</span><span class="title">Ending Family Safety on Startup</span></summary>
+      <div class="content">
+        <ul>
+          <li>On your Windows device, press Windows+R</li>
+          <li>Enter services.msc into the text box that appears and hit enter</li>
+          <li>In services, find “Parental Controls” and right-click and select properties</li>
+          <li>In the properties popup, turn the startup status to “disabled”</li>
+        </ul>
+        <p>If you would like to revert this, do all the same steps but change the startup status to automatic</p>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="chev">▶</span><span class="title">Permanently removing Family Safety</span></summary>
+      <div class="content">
+        <ul>
+          <li>On your Windows device, find wpcmon.exe (can be done in many ways, such as the Run dialog or Task Manager, located in System32), then delete it.</li>
+        </ul>
+      </div>
+    </details>
+
+
+    
+  </main>
+</body>
+</html>

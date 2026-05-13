@@ -25,6 +25,7 @@
     </a>
     <div class="nav-links">
       <a href="index.html">Home</a>
+      <a href="#projects">Projects</a>
       <a href="index.html#team">Team</a>
       <a href="about.html">About</a>
       <a href="https://discord.gg/goguardian" class="nav-cta">Discord</a>
@@ -91,8 +92,6 @@
 <div class="h-scroll-track-wrap">
         <div class="h-scroll-track" id="projectsTrack">
           <div class="project-card">
-    
-<div class="project-card">
             <div class="card-bg-num">01</div>
             <div>
               <p class="card-num">secondary project</p>
@@ -111,7 +110,7 @@
               <p>a simple yet powerful tabbed browser for ultraviolet, scramjet, and later singularity.</p>
             </div>
             <span class="card-badge">
-              <span class="badge-dot"></span>https://krypt-on.top</span>
+              <span class="badge-dot finished"></span>https://krypt-on.top</span>
           </div>
  
           <div class="project-card">
@@ -147,6 +146,26 @@
               <span class="badge-dot dev"></span>In Development </span>
           </div>
 
+          <div class="project-card">
+            <div class="card-bg-num">06</div>
+            <div>
+              <p class="card-num">Exploit Documentation</p>
+              <h3>Breach Exploit Docs</h3>
+              <p>Nebuli Labs Docs has moved/partnered with Wilted to bring you this list of exploits</p>
+            </div>
+            <div class="card-btn-row">
+              <span class="card-badge">
+                <span class="badge-dot finished"></span>Finished
+              </span>
+              <button class="card-cta-btn" data-iframe="/breach/index.html">
+                <span>Check it out!</span>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M1 9L9 1M9 1H3M9 1V7" stroke="#6e6e73" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
           </div>
         </div>
       </div>
@@ -178,7 +197,39 @@
       <a href="#team">Team</a>
     </div>
   </footer>
+  <div id="fullscreen-iframe-overlay" class="fullscreen-iframe-overlay">
+    <iframe id="fullscreen-iframe" src=""></iframe>
+  </div>
   <script>
+    function openIframe(url) {
+      const overlay = document.getElementById('fullscreen-iframe-overlay');
+      const iframe = document.getElementById('fullscreen-iframe');
+      iframe.src = url;
+      overlay.classList.add('active');
+      window.history.pushState(null, '', url);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeIframe() {
+      const overlay = document.getElementById('fullscreen-iframe-overlay');
+      overlay.classList.remove('active');
+      window.history.pushState(null, '', '/');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeIframe();
+      }
+    });
+
+    document.addEventListener('click', function(event) {
+      const overlay = document.getElementById('fullscreen-iframe-overlay');
+      if (overlay.classList.contains('active') && event.target === overlay) {
+        closeIframe();
+      }
+    });
+
     const dot = document.getElementById('cursor-dot');
 const ring = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
@@ -350,7 +401,7 @@ Object.keys(socialData).forEach(dev => {
     <div class="dev-socials" id="socials-${safeKey}"></div>
   `;
   function followLink() {
-    if (data.profile) { window.location.href = data.profile; return; }
+    if (data.profile) { openIframe(data.profile); return; }
     if (data.website) { window.location.href = data.website; return; }
     if (data.github) { window.location.href = data.github; return; }
   }
@@ -396,7 +447,6 @@ async function loadDeveloper(safeKey, data) {
     }
   }
 
-  // Override with custom avatar if provided — always wins over Discord
   if (data.avatar) {
     avatarImg.src = data.avatar;
   }
@@ -495,7 +545,16 @@ window.addEventListener('load', () => {
     document.getElementById('devList'),
     document.getElementById('teamDots')
   );
+
+  document.querySelectorAll('[data-iframe]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const url = this.getAttribute('data-iframe');
+      openIframe(url);
+    });
+  });
 });
     </script>
 </body>
+
 </html>

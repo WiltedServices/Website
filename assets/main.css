@@ -594,6 +594,44 @@ nav {
     background: #ffd60a; box-shadow: 0 0 6px #ffd60a;
   }
 
+  .badge-dot.finished {
+    background: #30d158; box-shadow: 0 0 6px #30d158;
+  }
+
+  .card-btn-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .card-btn-row .card-badge {
+    margin-top: 0;
+  }
+
+  .card-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 100px;
+    padding: 8px 16px;
+    width: fit-content;
+    font-size: 11px;
+    font-weight: 500;
+    color: #a1a1a6;
+    letter-spacing: 0.02em;
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-decoration: none;
+  }
+
+  .card-cta-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
   .dev-card {
     flex-shrink: 0;
     width: var(--card-w-dev);
@@ -798,6 +836,28 @@ nav {
     transform: translateY(0);
   }
 
+  .fullscreen-iframe-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: transparent;
+  }
+
+  .fullscreen-iframe-overlay.active {
+    display: flex;
+  }
+
+  .fullscreen-iframe-overlay iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    flex: 1;
+  }
+
   @media (max-width: 900px) {
     nav {
       padding: 0 24px;
@@ -853,7 +913,6 @@ nav {
     }
   }
 
-  /* Documentation Specific Styles */
   .docs-container {
     max-width: 1200px;
     margin: 0 auto;

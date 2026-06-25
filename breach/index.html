@@ -53,6 +53,36 @@ body {
   display: none;
 }
 
+#cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+#cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s var(--ease-out), height 0.2s var(--ease-out), border-color 0.2s;
+}
+
+#cursor-ring.expand {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 body {
   min-height: 100vh;
   width: 100%;
@@ -367,6 +397,8 @@ footer {
 </style>
 </head>
 <body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
 <div id="bypass-screen" class="center visible">
   <h1>What would you like to bypass today?</h1>
@@ -402,6 +434,27 @@ footer {
 </div>
 
 <script>
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX;
+  my = e.clientY;
+  dot.style.left = mx + 'px';
+  dot.style.top = my + 'px';
+});
+(function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a, button, .box').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+});
+
 const bypassScreen = document.getElementById('bypass-screen');
 const loadingScreen = document.getElementById('loading-screen');
 const embedView = document.getElementById('embed-view');
